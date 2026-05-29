@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: murmur-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/murmur?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: murmur
+    password: murmur
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: change-this-secret-key-to-a-long-random-value
+  access-token-expiration-ms: 1800000
+  refresh-token-expiration-ms: 1209600000
+
+server:
+  port: 8080
