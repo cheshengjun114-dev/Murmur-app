@@ -112,6 +112,32 @@ User Name: sa
 Password: 비워두기
 ```
 
+RDS MySQL에 연결하려면 IntelliJ 실행 설정에서 Active profiles에 `rds`를 입력하고 환경 변수를 추가하세요.
+
+```text
+Active profiles: rds
+```
+
+필수 환경 변수:
+
+```text
+DB_PASSWORD=RDS에서_설정한_비밀번호
+JWT_SECRET=최소_32자_이상의_긴_랜덤_문자열
+```
+
+선택 환경 변수:
+
+```text
+DB_NAME=murmur
+DB_USERNAME=admin
+```
+
+RDS에 `murmur` 데이터베이스가 없다면 먼저 생성해야 합니다.
+
+```sql
+CREATE DATABASE murmur CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
 ## 4일차 게시글 API
 
 ### 카테고리 목록
