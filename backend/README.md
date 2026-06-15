@@ -111,3 +111,65 @@ JDBC URL: jdbc:h2:mem:murmur-dev
 User Name: sa
 Password: 비워두기
 ```
+
+## 4일차 게시글 API
+
+### 카테고리 목록
+
+```http
+GET /api/categories
+```
+
+### 게시글 작성
+
+```http
+POST /api/posts
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```json
+{
+  "categoryId": 1,
+  "title": "오늘 회사에서 있었던 일",
+  "content": "본문 내용입니다."
+}
+```
+
+### 게시글 목록
+
+```http
+GET /api/posts?page=0&size=10
+GET /api/posts?categoryId=1&page=0&size=10
+```
+
+### 게시글 상세
+
+```http
+GET /api/posts/{postId}
+```
+
+상세 조회 시 조회수가 1 증가합니다.
+
+### 게시글 수정
+
+```http
+PATCH /api/posts/{postId}
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```json
+{
+  "categoryId": 1,
+  "title": "수정된 제목",
+  "content": "수정된 본문입니다."
+}
+```
+
+### 게시글 삭제
+
+```http
+DELETE /api/posts/{postId}
+Authorization: Bearer {accessToken}
+```

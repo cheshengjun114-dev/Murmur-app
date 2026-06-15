@@ -11,12 +11,17 @@ spring:
       path: /h2-console
 
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
     open-in-view: false
+
+  sql:
+    init:
+      mode: always
 
 jwt:
   secret: dev-secret-key-must-be-long-enough-for-hs256-signing
