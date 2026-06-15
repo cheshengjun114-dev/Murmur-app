@@ -23,6 +23,11 @@ spring:
     init:
       mode: always
 
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: 6379
+
 jwt:
   secret: dev-secret-key-must-be-long-enough-for-hs256-signing
   access-token-expiration-ms: 1800000
