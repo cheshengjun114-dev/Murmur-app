@@ -199,3 +199,87 @@ Content-Type: application/json
 DELETE /api/posts/{postId}
 Authorization: Bearer {accessToken}
 ```
+
+## 6일차 댓글 API
+
+### 댓글/대댓글 작성
+
+```http
+POST /api/posts/{postId}/comments
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+댓글:
+
+```json
+{
+  "content": "댓글 내용입니다."
+}
+```
+
+대댓글:
+
+```json
+{
+  "parentCommentId": 1,
+  "content": "대댓글 내용입니다."
+}
+```
+
+### 댓글 목록
+
+```http
+GET /api/posts/{postId}/comments
+```
+
+### 댓글 수정
+
+```http
+PATCH /api/comments/{commentId}
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```json
+{
+  "content": "수정된 댓글입니다."
+}
+```
+
+### 댓글 삭제
+
+```http
+DELETE /api/comments/{commentId}
+Authorization: Bearer {accessToken}
+```
+
+## 6일차 반응 API
+
+### 반응 토글
+
+```http
+POST /api/posts/{postId}/reactions
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```json
+{
+  "reactionType": "EMPATHY"
+}
+```
+
+반응 타입:
+
+```text
+EMPATHY = 공감해요
+FUNNY = ㅋㅋㅋ
+CHEER = 힘내요
+```
+
+### 반응 요약
+
+```http
+GET /api/posts/{postId}/reactions
+```

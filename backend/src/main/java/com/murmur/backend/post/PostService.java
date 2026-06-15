@@ -2,6 +2,7 @@ package com.murmur.backend.post;
 
 import com.murmur.backend.category.Category;
 import com.murmur.backend.category.CategoryRepository;
+import com.murmur.backend.comment.CommentRepository;
 import com.murmur.backend.common.exception.BusinessException;
 import com.murmur.backend.common.exception.ErrorCode;
 import com.murmur.backend.post.dto.PostCreateRequest;
@@ -9,6 +10,7 @@ import com.murmur.backend.post.dto.PostCreateResponse;
 import com.murmur.backend.post.dto.PostDetailResponse;
 import com.murmur.backend.post.dto.PostListResponse;
 import com.murmur.backend.post.dto.PostUpdateRequest;
+import com.murmur.backend.reaction.ReactionRepository;
 import com.murmur.backend.user.User;
 import com.murmur.backend.user.UserRepository;
 import com.murmur.backend.user.UserRole;
@@ -25,6 +27,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final CommentRepository commentRepository;
+    private final ReactionRepository reactionRepository;
 
     @Transactional
     public PostCreateResponse createPost(Long userId, PostCreateRequest request) {
@@ -40,7 +44,11 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<PostListResponse> getPosts(Long categoryId, Pageable pageable) {
         return postRepository.findPosts(categoryId, pageable)
-                .map(PostListResponse::from);
+                .map(post -> PostListResponse.from(
+                        post,
+                        commentRepository.countByPostIdAndDeletedAtIsNull(post.getId()),
+                        reactionRepository.countByPostId(post.getId())
+                ));
     }
 
     @Transactional
@@ -48,7 +56,12 @@ public class PostService {
         Post post = getActivePost(postId);
         post.increaseViewCount();
 
-        return PostDetailResponse.from(post, currentUserId);
+        return PostDetailResponse.from(
+                post,
+                currentUserId,
+                commentRepository.countByPostIdAndDeletedAtIsNull(post.getId()),
+                reactionRepository.countByPostId(post.getId())
+        );
     }
 
     @Transactional

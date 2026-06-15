@@ -14,13 +14,17 @@ public record PostListResponse(
 ) {
 
     public static PostListResponse from(Post post) {
+        return from(post, 0L, 0L);
+    }
+
+    public static PostListResponse from(Post post, long commentCount, long reactionCount) {
         return new PostListResponse(
                 post.getId(),
                 post.getTitle(),
                 post.getCategory().getName(),
                 post.getViewCount(),
-                0L,
-                0L,
+                commentCount,
+                reactionCount,
                 post.getCreatedAt()
         );
     }
