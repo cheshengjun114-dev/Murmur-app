@@ -1,6 +1,14 @@
 import { PostCard } from './PostCard.jsx';
 
-export function PostList({ posts, isLoading, errorMessage }) {
+export function PostList({
+  posts,
+  isLoading,
+  errorMessage,
+  emptyTitle = '아직 게시글이 없습니다.',
+  emptyDescription = '첫 번째 익명 이야기를 남겨보세요.',
+  showRank = false,
+  showPopularScore = false,
+}) {
   if (isLoading) {
     return (
       <div className="space-y-3">
@@ -18,16 +26,21 @@ export function PostList({ posts, isLoading, errorMessage }) {
   if (!posts?.length) {
     return (
       <div className="rounded-[8px] border border-dashed border-stone-300 bg-white px-6 py-12 text-center">
-        <p className="text-base font-semibold text-stone-800">아직 게시글이 없습니다.</p>
-        <p className="mt-2 text-sm text-stone-500">첫 번째 익명 이야기를 남겨보세요.</p>
+        <p className="text-base font-semibold text-stone-800">{emptyTitle}</p>
+        <p className="mt-2 text-sm text-stone-500">{emptyDescription}</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-3">
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
+      {posts.map((post, index) => (
+        <PostCard
+          key={post.id}
+          post={post}
+          rank={showRank ? index + 1 : undefined}
+          showPopularScore={showPopularScore}
+        />
       ))}
     </div>
   );

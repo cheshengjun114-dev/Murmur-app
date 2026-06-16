@@ -50,6 +50,14 @@ public class PostController {
         return ApiResponse.ok(postService.getPosts(categoryId, pageable));
     }
 
+    @GetMapping("/popular")
+    public ApiResponse<Page<PostListResponse>> getPopularPosts(
+            @RequestParam(required = false) Long categoryId,
+            @PageableDefault(size = 5) Pageable pageable
+    ) {
+        return ApiResponse.ok(postService.getPopularPosts(categoryId, pageable));
+    }
+
     @GetMapping("/{postId}")
     public ApiResponse<PostDetailResponse> getPost(
             @PathVariable Long postId,

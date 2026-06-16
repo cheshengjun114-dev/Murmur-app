@@ -12,6 +12,18 @@ export async function getPosts({ categoryId, page = 0, size = 10 }) {
   return response.data.data;
 }
 
+export async function getPopularPosts({ categoryId, page = 0, size = 5 } = {}) {
+  const response = await apiClient.get('/posts/popular', {
+    params: {
+      categoryId,
+      page,
+      size,
+    },
+  });
+
+  return response.data.data;
+}
+
 export async function getPost(postId) {
   const response = await apiClient.get(`/posts/${postId}`);
   return response.data.data;

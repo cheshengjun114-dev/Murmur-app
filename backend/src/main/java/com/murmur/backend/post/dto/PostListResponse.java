@@ -10,8 +10,12 @@ public record PostListResponse(
         long viewCount,
         long commentCount,
         long reactionCount,
+        long popularScore,
         LocalDateTime createdAt
 ) {
+
+    private static final int COMMENT_SCORE_WEIGHT = 3;
+    private static final int REACTION_SCORE_WEIGHT = 2;
 
     public static PostListResponse from(Post post) {
         return from(post, 0L, 0L);
@@ -25,7 +29,14 @@ public record PostListResponse(
                 post.getViewCount(),
                 commentCount,
                 reactionCount,
+                calculatePopularScore(post, commentCount, reactionCount),
                 post.getCreatedAt()
         );
+    }
+
+    private static long calculatePopularScore(Post post, long commentCount, long reactionCount) {
+        return post.getViewCount()
+                + (commentCount * COMMENT_SCORE_WEIGHT)
+                + (reactionCount * REACTION_SCORE_WEIGHT);
     }
 }

@@ -54,6 +54,16 @@ public class PostService {
                 ));
     }
 
+    @Transactional(readOnly = true)
+    public Page<PostListResponse> getPopularPosts(Long categoryId, Pageable pageable) {
+        return postRepository.findPopularPosts(categoryId, pageable)
+                .map(post -> PostListResponse.from(
+                        post,
+                        commentRepository.countByPostIdAndDeletedAtIsNull(post.getId()),
+                        reactionRepository.countByPostId(post.getId())
+                ));
+    }
+
     @Transactional
     public PostDetailResponse getPost(Long postId, Long currentUserId) {
         Post post = getActivePost(postId);

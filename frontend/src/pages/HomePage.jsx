@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { PageShell } from '../components/PageShell.jsx';
 import { getCategories } from '../features/categories/categoryApi.js';
 import { CategoryTabs } from '../features/posts/CategoryTabs.jsx';
-import { getPosts } from '../features/posts/postApi.js';
+import { getPopularPosts, getPosts } from '../features/posts/postApi.js';
 import { PostList } from '../features/posts/PostList.jsx';
 
 export function HomePage() {
@@ -15,6 +15,11 @@ export function HomePage() {
   const postsQuery = useQuery({
     queryKey: ['posts', { categoryId: null, page: 0 }],
     queryFn: () => getPosts({ page: 0, size: 10 }),
+  });
+
+  const popularPostsQuery = useQuery({
+    queryKey: ['popular-posts', { categoryId: null, page: 0 }],
+    queryFn: () => getPopularPosts({ page: 0, size: 5 }),
   });
 
   return (
@@ -37,7 +42,29 @@ export function HomePage() {
           <CategoryTabs categories={categoriesQuery.data ?? []} activeCategoryId={null} />
         </div>
 
+        <section className="mt-8">
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-sm font-bold text-[#c15d35]">인기글</p>
+              <h2 className="mt-2 text-2xl font-semibold text-stone-950">지금 반응이 많은 이야기</h2>
+            </div>
+          </div>
+          <PostList
+            posts={popularPostsQuery.data?.content ?? []}
+            isLoading={popularPostsQuery.isLoading}
+            errorMessage={popularPostsQuery.isError ? '인기글을 불러오지 못했습니다.' : ''}
+            emptyTitle="아직 인기글이 없습니다."
+            emptyDescription="조회, 댓글, 반응이 쌓이면 이곳에 표시됩니다."
+            showRank
+            showPopularScore
+          />
+        </section>
+
         <section className="mt-6">
+          <div className="mb-4">
+            <p className="text-sm font-bold text-[#c15d35]">최신글</p>
+            <h2 className="mt-2 text-2xl font-semibold text-stone-950">새로 올라온 이야기</h2>
+          </div>
           <PostList
             posts={postsQuery.data?.content ?? []}
             isLoading={postsQuery.isLoading}

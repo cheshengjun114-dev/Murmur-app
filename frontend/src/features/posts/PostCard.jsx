@@ -1,15 +1,23 @@
 import { Link } from 'react-router-dom';
 import { formatDateTime } from './dateUtils.js';
 
-export function PostCard({ post }) {
+export function PostCard({ post, rank, showPopularScore = false }) {
   return (
     <Link
       className="block rounded-[8px] border border-stone-200 bg-white p-5 shadow-sm transition hover:border-[#17443f] hover:shadow-md"
       to={`/posts/${post.id}`}
     >
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-[8px] bg-[#eef5ef] px-3 py-1 text-xs font-bold text-[#17443f]">{post.categoryName}</span>
-        <span className="text-xs text-stone-500">{formatDateTime(post.createdAt)}</span>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {rank && <span className="text-sm font-bold text-[#c15d35]">#{rank}</span>}
+          <span className="rounded-[8px] bg-[#eef5ef] px-3 py-1 text-xs font-bold text-[#17443f]">{post.categoryName}</span>
+          <span className="text-xs text-stone-500">{formatDateTime(post.createdAt)}</span>
+        </div>
+        {showPopularScore && (
+          <span className="rounded-[8px] border border-stone-200 px-2.5 py-1 text-xs font-semibold text-stone-600">
+            점수 {post.popularScore}
+          </span>
+        )}
       </div>
       <h2 className="mt-3 text-xl font-semibold leading-7 text-stone-950">{post.title}</h2>
       <dl className="mt-4 flex flex-wrap gap-4 text-sm text-stone-500">
