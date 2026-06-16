@@ -283,3 +283,37 @@ CHEER = 힘내요
 ```http
 GET /api/posts/{postId}/reactions
 ```
+
+## 8일차 익명 번호 / 신고 API
+
+댓글 작성자는 게시글 단위로 익명 번호가 저장됩니다.
+
+```text
+게시글 작성자 = 익명1(글쓴이)
+첫 번째 댓글 작성자 = 익명2
+두 번째 댓글 작성자 = 익명3
+```
+
+같은 사용자는 같은 게시글 안에서 항상 같은 익명 번호를 유지합니다.
+
+### 게시글 신고
+
+```http
+POST /api/posts/{postId}/report
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```json
+{
+  "reason": "신고 사유입니다."
+}
+```
+
+정책:
+
+```text
+본인 게시글 신고 불가
+같은 사용자의 같은 게시글 중복 신고 불가
+신고 5회 이상 누적 시 자동 블라인드 처리
+```

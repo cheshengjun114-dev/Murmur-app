@@ -1,8 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PageShell } from '../components/PageShell.jsx';
+import { CommentSection } from '../features/comments/CommentSection.jsx';
 import { deletePost, getPost } from '../features/posts/postApi.js';
 import { formatDateTime } from '../features/posts/dateUtils.js';
+import { ReactionBar } from '../features/reactions/ReactionBar.jsx';
+import { ReportButton } from '../features/reports/ReportButton.jsx';
 
 export function PostDetailPage() {
   const { postId } = useParams();
@@ -51,24 +54,28 @@ export function PostDetailPage() {
                 <span className="text-sm text-stone-500">익명1(글쓴이)</span>
                 <span className="text-sm text-stone-500">{formatDateTime(post.createdAt)}</span>
               </div>
-              {post.authorAnonymous && (
-                <div className="flex gap-2">
-                  <Link
-                    className="rounded-[8px] border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700"
-                    to={`/posts/${post.id}/edit`}
-                  >
-                    수정
-                  </Link>
-                  <button
-                    className="rounded-[8px] border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 disabled:cursor-not-allowed disabled:opacity-60"
-                    type="button"
-                    disabled={deleteMutation.isPending}
-                    onClick={handleDelete}
-                  >
-                    삭제
-                  </button>
-                </div>
-              )}
+              <div className="flex gap-2">
+                {post.authorAnonymous ? (
+                  <>
+                    <Link
+                      className="rounded-[8px] border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700"
+                      to={`/posts/${post.id}/edit`}
+                    >
+                      수정
+                    </Link>
+                    <button
+                      className="rounded-[8px] border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+                      type="button"
+                      disabled={deleteMutation.isPending}
+                      onClick={handleDelete}
+                    >
+                      삭제
+                    </button>
+                  </>
+                ) : (
+                  <ReportButton postId={postId} />
+                )}
+              </div>
             </div>
 
             <h1 className="mt-5 text-3xl font-semibold leading-tight text-stone-950">{post.title}</h1>
@@ -95,10 +102,8 @@ export function PostDetailPage() {
               <p className="mt-8 whitespace-pre-wrap text-base leading-8 text-stone-800">{post.content}</p>
             )}
 
-            <section className="mt-10 border-t border-stone-200 pt-6">
-              <h2 className="text-lg font-semibold text-stone-950">댓글과 반응</h2>
-              <p className="mt-2 text-sm text-stone-500">댓글과 반응 기능은 6~7일차에 연결합니다.</p>
-            </section>
+            <ReactionBar postId={postId} />
+            <CommentSection postId={postId} />
           </article>
         )}
       </section>

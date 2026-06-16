@@ -78,6 +78,14 @@ public class Post extends BaseTimeEntity {
         this.deletedAt = LocalDateTime.now();
     }
 
+    public void blind() {
+        this.blinded = true;
+    }
+
+    public void unblind() {
+        this.blinded = false;
+    }
+
     public boolean isDeleted() {
         return deletedAt != null;
     }

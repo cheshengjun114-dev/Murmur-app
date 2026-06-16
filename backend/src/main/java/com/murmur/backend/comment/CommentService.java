@@ -1,5 +1,6 @@
 package com.murmur.backend.comment;
 
+import com.murmur.backend.anonymous.AnonymousService;
 import com.murmur.backend.comment.dto.CommentCreateRequest;
 import com.murmur.backend.comment.dto.CommentCreateResponse;
 import com.murmur.backend.comment.dto.CommentResponse;
@@ -13,6 +14,7 @@ import com.murmur.backend.user.UserRepository;
 import com.murmur.backend.user.UserRole;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +26,14 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final AnonymousNameResolver anonymousNameResolver;
+    private final AnonymousService anonymousService;
 
     @Transactional
     public CommentCreateResponse createComment(Long postId, Long userId, CommentCreateRequest request) {
         Post post = getPost(postId);
         User user = getUser(userId);
         Comment parentComment = getParentComment(postId, request.parentCommentId());
+        anonymousService.getOrCreate(post, user);
 
         Comment comment = Comment.create(post, user, parentComment, request.content());
         Comment savedComment = commentRepository.save(comment);
@@ -38,11 +41,20 @@ public class CommentService {
         return new CommentCreateResponse(savedComment.getId());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<CommentResponse> getComments(Long postId, Long currentUserId) {
         Post post = getPost(postId);
         List<Comment> comments = commentRepository.findActiveCommentsByPostId(postId);
-        Map<Long, String> anonymousNames = anonymousNameResolver.resolve(post, comments);
+        anonymousService.getOrCreate(post, post.getUser());
+        Map<Long, String> anonymousNames = comments.stream()
+                .map(Comment::getUser)
+                .distinct()
+                .collect(Collectors.toMap(
+                        User::getId,
+                        user -> anonymousService.getOrCreateLabel(post, user),
+                        (left, right) -> left
+                ));
+        anonymousNames.put(post.getUser().getId(), anonymousService.getOrCreateLabel(post, post.getUser()));
 
         return comments.stream()
                 .filter(comment -> !comment.isReply())

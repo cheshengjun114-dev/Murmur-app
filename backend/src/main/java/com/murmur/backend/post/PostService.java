@@ -1,5 +1,6 @@
 package com.murmur.backend.post;
 
+import com.murmur.backend.anonymous.AnonymousService;
 import com.murmur.backend.category.Category;
 import com.murmur.backend.category.CategoryRepository;
 import com.murmur.backend.comment.CommentRepository;
@@ -29,6 +30,7 @@ public class PostService {
     private final CategoryRepository categoryRepository;
     private final CommentRepository commentRepository;
     private final ReactionRepository reactionRepository;
+    private final AnonymousService anonymousService;
 
     @Transactional
     public PostCreateResponse createPost(Long userId, PostCreateRequest request) {
@@ -37,6 +39,7 @@ public class PostService {
 
         Post post = Post.create(user, category, request.title(), request.content());
         Post savedPost = postRepository.save(post);
+        anonymousService.getOrCreate(savedPost, user);
 
         return new PostCreateResponse(savedPost.getId());
     }
