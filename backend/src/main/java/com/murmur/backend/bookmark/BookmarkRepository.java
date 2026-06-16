@@ -16,6 +16,14 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     Optional<Bookmark> findByPostIdAndUserId(Long postId, Long userId);
 
+    @Query("""
+            select count(b)
+            from Bookmark b
+            where b.user.id = :userId
+              and b.post.deletedAt is null
+            """)
+    long countActiveBookmarksByUserId(@Param("userId") Long userId);
+
     @EntityGraph(attributePaths = {"post", "post.category"})
     @Query("""
             select b

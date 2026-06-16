@@ -29,4 +29,12 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findActiveById(@Param("commentId") Long commentId);
 
     long countByPostIdAndDeletedAtIsNull(Long postId);
+
+    @Query("""
+            select count(c)
+            from Comment c
+            where c.user.id = :userId
+              and c.deletedAt is null
+            """)
+    long countActiveCommentsByUserId(@Param("userId") Long userId);
 }

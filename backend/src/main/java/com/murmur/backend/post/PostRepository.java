@@ -20,6 +20,24 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findPosts(@Param("categoryId") Long categoryId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"category"})
+    @Query("""
+            select p
+            from Post p
+            where p.user.id = :userId
+              and p.deletedAt is null
+            order by p.createdAt desc
+            """)
+    Page<Post> findActivePostsByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("""
+            select count(p)
+            from Post p
+            where p.user.id = :userId
+              and p.deletedAt is null
+            """)
+    long countActivePostsByUserId(@Param("userId") Long userId);
+
+    @EntityGraph(attributePaths = {"category"})
     @Query(
             value = """
                     select p
