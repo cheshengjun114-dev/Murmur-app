@@ -3,9 +3,9 @@ spring:
     name: murmur-backend
 
   datasource:
-    url: jdbc:mysql://localhost:3306/murmur?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: murmur
-    password: murmur
+    url: ${DB_URL:jdbc:mysql://localhost:3306/murmur_app?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:murmur}
+    password: ${DB_PASSWORD:murmur}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -18,13 +18,13 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: ${REDIS_HOST:127.0.0.1}
       port: 6379
 
 jwt:
-  secret: replace-with-long-random-secret-at-least-32-characters
-  access-token-expiration-ms: 1800000
-  refresh-token-expiration-ms: 1209600000
+  secret: ${JWT_SECRET:replace-with-long-random-secret-at-least-32-characters}
+  access-token-expiration-ms: ${JWT_ACCESS_TOKEN_EXPIRATION_MS:1800000}
+  refresh-token-expiration-ms: ${JWT_REFRESH_TOKEN_EXPIRATION_MS:1209600000}
 
 server:
   port: 8080
