@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PageShell } from '../components/PageShell.jsx';
+import { useAuth } from '../features/auth/AuthContext.jsx';
+import { BookmarkButton } from '../features/bookmarks/BookmarkButton.jsx';
 import { CommentSection } from '../features/comments/CommentSection.jsx';
 import { deletePost, getPost } from '../features/posts/postApi.js';
 import { formatDateTime } from '../features/posts/dateUtils.js';
@@ -11,6 +13,7 @@ export function PostDetailPage() {
   const { postId } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuth();
 
   const postQuery = useQuery({
     queryKey: ['post', postId],
@@ -54,7 +57,8 @@ export function PostDetailPage() {
                 <span className="text-sm text-stone-500">익명1(글쓴이)</span>
                 <span className="text-sm text-stone-500">{formatDateTime(post.createdAt)}</span>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
+                {isAuthenticated && <BookmarkButton postId={postId} bookmarked={post.bookmarked} />}
                 {post.authorAnonymous ? (
                   <>
                     <Link

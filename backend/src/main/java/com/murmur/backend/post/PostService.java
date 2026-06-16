@@ -1,6 +1,7 @@
 package com.murmur.backend.post;
 
 import com.murmur.backend.anonymous.AnonymousService;
+import com.murmur.backend.bookmark.BookmarkRepository;
 import com.murmur.backend.category.Category;
 import com.murmur.backend.category.CategoryRepository;
 import com.murmur.backend.comment.CommentRepository;
@@ -30,6 +31,7 @@ public class PostService {
     private final CategoryRepository categoryRepository;
     private final CommentRepository commentRepository;
     private final ReactionRepository reactionRepository;
+    private final BookmarkRepository bookmarkRepository;
     private final AnonymousService anonymousService;
 
     @Transactional
@@ -73,7 +75,8 @@ public class PostService {
                 post,
                 currentUserId,
                 commentRepository.countByPostIdAndDeletedAtIsNull(post.getId()),
-                reactionRepository.countByPostId(post.getId())
+                reactionRepository.countByPostId(post.getId()),
+                currentUserId != null && bookmarkRepository.existsByPostIdAndUserId(post.getId(), currentUserId)
         );
     }
 

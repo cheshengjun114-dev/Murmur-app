@@ -13,6 +13,7 @@ public record PostDetailResponse(
         long reactionCount,
         boolean blinded,
         boolean authorAnonymous,
+        boolean bookmarked,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -20,10 +21,16 @@ public record PostDetailResponse(
     private static final String BLINDED_CONTENT = "신고로 인해 숨겨진 글입니다.";
 
     public static PostDetailResponse from(Post post, Long currentUserId) {
-        return from(post, currentUserId, 0L, 0L);
+        return from(post, currentUserId, 0L, 0L, false);
     }
 
-    public static PostDetailResponse from(Post post, Long currentUserId, long commentCount, long reactionCount) {
+    public static PostDetailResponse from(
+            Post post,
+            Long currentUserId,
+            long commentCount,
+            long reactionCount,
+            boolean bookmarked
+    ) {
         return new PostDetailResponse(
                 post.getId(),
                 post.getTitle(),
@@ -34,6 +41,7 @@ public record PostDetailResponse(
                 reactionCount,
                 post.isBlinded(),
                 currentUserId != null && post.isOwner(currentUserId),
+                bookmarked,
                 post.getCreatedAt(),
                 post.getUpdatedAt()
         );

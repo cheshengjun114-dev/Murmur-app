@@ -17,6 +17,9 @@ export function AppHeader() {
                 신고관리
               </Link>
             )}
+            <Link className="rounded-[8px] px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-white" to="/bookmarks">
+              북마크
+            </Link>
             <Link className="rounded-[8px] px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-white" to="/mypage">
               마이페이지
             </Link>
