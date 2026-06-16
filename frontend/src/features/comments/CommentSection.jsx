@@ -38,11 +38,17 @@ export function CommentSection({ postId }) {
   const updateMutation = useMutation({
     mutationFn: updateComment,
     onSuccess: invalidateCommentData,
+    onError: (error) => {
+      setFormError(error.response?.data?.message ?? '댓글 수정에 실패했습니다.');
+    },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteComment,
     onSuccess: invalidateCommentData,
+    onError: (error) => {
+      setFormError(error.response?.data?.message ?? '댓글 삭제에 실패했습니다.');
+    },
   });
 
   function submitComment(event) {
@@ -65,6 +71,9 @@ export function CommentSection({ postId }) {
           setFormError('');
           invalidateCommentData();
           onSuccess?.();
+        },
+        onError: (error) => {
+          setFormError(error.response?.data?.message ?? '답글 작성에 실패했습니다.');
         },
       },
     );

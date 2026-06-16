@@ -5,6 +5,8 @@ import com.murmur.backend.comment.dto.CommentCreateRequest;
 import com.murmur.backend.comment.dto.CommentCreateResponse;
 import com.murmur.backend.comment.dto.CommentResponse;
 import com.murmur.backend.comment.dto.CommentUpdateRequest;
+import com.murmur.backend.common.exception.BusinessException;
+import com.murmur.backend.common.exception.ErrorCode;
 import com.murmur.backend.common.response.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -34,7 +36,7 @@ public class CommentController {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody CommentCreateRequest request
     ) {
-        return ApiResponse.ok(commentService.createComment(postId, userDetails.getUserId(), request));
+        return ApiResponse.ok(commentService.createComment(postId, getUserId(userDetails), request));
     }
 
     @GetMapping("/api/posts/{postId}/comments")
@@ -52,7 +54,7 @@ public class CommentController {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody CommentUpdateRequest request
     ) {
-        commentService.updateComment(commentId, userDetails.getUserId(), request);
+        commentService.updateComment(commentId, getUserId(userDetails), request);
         return ApiResponse.ok(null);
     }
 
@@ -61,7 +63,15 @@ public class CommentController {
             @PathVariable Long commentId,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        commentService.deleteComment(commentId, userDetails.getUserId());
+        commentService.deleteComment(commentId, getUserId(userDetails));
         return ApiResponse.ok(null);
+    }
+
+    private Long getUserId(CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new BusinessException(ErrorCode.LOGIN_REQUIRED);
+        }
+
+        return userDetails.getUserId();
     }
 }

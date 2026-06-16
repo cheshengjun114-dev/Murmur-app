@@ -1,6 +1,8 @@
 package com.murmur.backend.report;
 
 import com.murmur.backend.auth.security.CustomUserDetails;
+import com.murmur.backend.common.exception.BusinessException;
+import com.murmur.backend.common.exception.ErrorCode;
 import com.murmur.backend.common.response.ApiResponse;
 import com.murmur.backend.report.dto.ReportCreateRequest;
 import com.murmur.backend.report.dto.ReportCreateResponse;
@@ -27,6 +29,14 @@ public class ReportController {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody ReportCreateRequest request
     ) {
-        return ApiResponse.ok(reportService.reportPost(postId, userDetails.getUserId(), request));
+        return ApiResponse.ok(reportService.reportPost(postId, getUserId(userDetails), request));
+    }
+
+    private Long getUserId(CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new BusinessException(ErrorCode.LOGIN_REQUIRED);
+        }
+
+        return userDetails.getUserId();
     }
 }

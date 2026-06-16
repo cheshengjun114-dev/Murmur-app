@@ -1,6 +1,8 @@
 package com.murmur.backend.reaction;
 
 import com.murmur.backend.auth.security.CustomUserDetails;
+import com.murmur.backend.common.exception.BusinessException;
+import com.murmur.backend.common.exception.ErrorCode;
 import com.murmur.backend.common.response.ApiResponse;
 import com.murmur.backend.reaction.dto.ReactionSummaryResponse;
 import com.murmur.backend.reaction.dto.ReactionToggleRequest;
@@ -27,7 +29,7 @@ public class ReactionController {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody ReactionToggleRequest request
     ) {
-        return ApiResponse.ok(reactionService.toggleReaction(postId, userDetails.getUserId(), request.reactionType()));
+        return ApiResponse.ok(reactionService.toggleReaction(postId, getUserId(userDetails), request.reactionType()));
     }
 
     @GetMapping
@@ -37,5 +39,13 @@ public class ReactionController {
     ) {
         Long currentUserId = userDetails == null ? null : userDetails.getUserId();
         return ApiResponse.ok(reactionService.getReactionSummary(postId, currentUserId));
+    }
+
+    private Long getUserId(CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new BusinessException(ErrorCode.LOGIN_REQUIRED);
+        }
+
+        return userDetails.getUserId();
     }
 }
