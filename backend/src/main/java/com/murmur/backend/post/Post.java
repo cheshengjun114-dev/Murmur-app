@@ -49,6 +49,8 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private boolean blinded;
 
+    private Long blindClearedReportCount;
+
     private LocalDateTime deletedAt;
 
     private Post(User user, Category category, String title, String content) {
@@ -58,6 +60,7 @@ public class Post extends BaseTimeEntity {
         this.content = content;
         this.viewCount = 0L;
         this.blinded = false;
+        this.blindClearedReportCount = 0L;
     }
 
     public static Post create(User user, Category category, String title, String content) {
@@ -82,8 +85,9 @@ public class Post extends BaseTimeEntity {
         this.blinded = true;
     }
 
-    public void unblind() {
+    public void unblindAfterReview(long currentReportCount) {
         this.blinded = false;
+        this.blindClearedReportCount = currentReportCount;
     }
 
     public boolean isDeleted() {
@@ -92,5 +96,13 @@ public class Post extends BaseTimeEntity {
 
     public boolean isOwner(Long userId) {
         return this.user.getId().equals(userId);
+    }
+
+    public boolean shouldAutoBlind(long reportCount, int reportThreshold) {
+        return reportCount >= reportThreshold && reportCount > getReviewedReportCount();
+    }
+
+    private long getReviewedReportCount() {
+        return blindClearedReportCount == null ? 0L : blindClearedReportCount;
     }
 }
