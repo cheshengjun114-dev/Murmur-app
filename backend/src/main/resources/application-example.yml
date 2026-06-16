@@ -27,4 +27,4 @@ jwt:
   refresh-token-expiration-ms: ${JWT_REFRESH_TOKEN_EXPIRATION_MS:1209600000}
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8081}
