@@ -9,12 +9,15 @@ import com.murmur.backend.common.exception.ErrorCode;
 import com.murmur.backend.user.User;
 import com.murmur.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -37,7 +40,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public TokenResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_LOGIN));
@@ -49,7 +52,7 @@ public class AuthService {
         return issueTokens(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public TokenResponse refresh(String refreshToken) {
         jwtTokenProvider.validateToken(refreshToken);
         Long userId = jwtTokenProvider.getUserId(refreshToken);
@@ -71,10 +74,23 @@ public class AuthService {
     }
 
     private TokenResponse issueTokens(User user) {
-        String accessToken = jwtTokenProvider.generateAccessToken(user.getId(), user.getRole());
-        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId(), user.getRole());
+        String accessToken;
+        String refreshToken;
 
-        refreshTokenService.save(user.getId(), refreshToken, jwtTokenProvider.getRefreshTokenExpirationMs());
+        try {
+            accessToken = jwtTokenProvider.generateAccessToken(user.getId(), user.getRole());
+            refreshToken = jwtTokenProvider.generateRefreshToken(user.getId(), user.getRole());
+        } catch (RuntimeException exception) {
+            log.error("JWT 토큰 발급에 실패했습니다. userId={}", user.getId(), exception);
+            throw new BusinessException(ErrorCode.TOKEN_ISSUE_FAILED);
+        }
+
+        try {
+            refreshTokenService.save(user.getId(), refreshToken, jwtTokenProvider.getRefreshTokenExpirationMs());
+        } catch (DataAccessException exception) {
+            log.error("Refresh Token Redis 저장에 실패했습니다. userId={}", user.getId(), exception);
+            throw new BusinessException(ErrorCode.REDIS_UNAVAILABLE);
+        }
 
         return TokenResponse.bearer(accessToken, refreshToken, jwtTokenProvider.getAccessTokenExpirationMs());
     }
