@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://murmur-database.ch6so6m66mra.ap-northeast-2.rds.amazonaws.com:3306/${DB_NAME:murmur_app}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: ${DB_URL:jdbc:mysql://murmur-database.ch6so6m66mra.ap-northeast-2.rds.amazonaws.com:3306/murmur_app?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true}
     username: ${DB_USERNAME:admin}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,3 +27,6 @@ jwt:
   secret: ${JWT_SECRET:change-this-secret-key-to-a-long-random-value}
   access-token-expiration-ms: ${JWT_ACCESS_TOKEN_EXPIRATION_MS:1800000}
   refresh-token-expiration-ms: ${JWT_REFRESH_TOKEN_EXPIRATION_MS:1209600000}
+
+server:
+  port: ${SERVER_PORT:8081}
