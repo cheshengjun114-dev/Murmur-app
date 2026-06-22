@@ -37,27 +37,37 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             """)
     long countActivePostsByUserId(@Param("userId") Long userId);
 
-    @EntityGraph(attributePaths = {"category"})
     @Query(
             value = """
-                    select p
-                    from Post p
-                    left join Comment c on c.post = p and c.deletedAt is null
-                    left join Reaction r on r.post = p
-                    where p.deletedAt is null
+                    select p.*
+                    from posts p
+                    where p.deleted_at is null
                       and p.blinded = false
-                      and (:categoryId is null or p.category.id = :categoryId)
-                    group by p
-                    order by (p.viewCount + count(distinct c.id) * 3 + count(distinct r.id) * 2) desc,
-                             p.createdAt desc
+                      and (:categoryId is null or p.category_id = :categoryId)
+                    order by (
+                        p.view_count
+                        + (
+                            select count(*)
+                            from comments c
+                            where c.post_id = p.id
+                              and c.deleted_at is null
+                        ) * 3
+                        + (
+                            select count(*)
+                            from reactions r
+                            where r.post_id = p.id
+                        ) * 2
+                    ) desc,
+                    p.created_at desc
                     """,
             countQuery = """
-                    select count(p)
-                    from Post p
-                    where p.deletedAt is null
+                    select count(*)
+                    from posts p
+                    where p.deleted_at is null
                       and p.blinded = false
-                      and (:categoryId is null or p.category.id = :categoryId)
-                    """
+                      and (:categoryId is null or p.category_id = :categoryId)
+                    """,
+            nativeQuery = true
     )
     Page<Post> findPopularPosts(@Param("categoryId") Long categoryId, Pageable pageable);
 
