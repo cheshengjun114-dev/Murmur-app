@@ -11,10 +11,10 @@ export function BookmarkPage() {
 
   return (
     <PageShell>
-      <section className="py-10">
+      <section className="mx-auto max-w-3xl py-10">
         <div>
-          <p className="text-sm font-bold text-[#c15d35]">북마크</p>
-          <h1 className="mt-3 text-3xl font-semibold leading-tight text-stone-950">저장한 이야기</h1>
+          <p className="text-sm font-bold text-[#e47758]">북마크</p>
+          <h1 className="mt-3 text-3xl font-extrabold leading-tight text-[#43251d]">저장한 이야기</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-stone-600">
             나중에 다시 읽고 싶은 익명 이야기를 모아둡니다.
           </p>

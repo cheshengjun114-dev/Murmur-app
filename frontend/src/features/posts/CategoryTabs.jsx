@@ -7,8 +7,8 @@ export function CategoryTabs({ categories, activeCategoryId }) {
       <Link
         className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
           activeCategoryId
-            ? 'border border-slate-200 bg-white text-slate-600 hover:border-violet-300 hover:text-violet-700'
-            : 'bg-violet-600 text-white shadow-sm'
+            ? 'border border-[#efd8ce] bg-[#fffdfb] text-[#8b6558] hover:border-[#e6a28d] hover:text-[#b95f42]'
+            : 'bg-[#e47758] text-white shadow-sm'
         }`}
         to="/"
       >
@@ -21,8 +21,8 @@ export function CategoryTabs({ categories, activeCategoryId }) {
           <Link
             className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
               isActive
-                ? 'bg-violet-600 text-white shadow-sm'
-                : 'border border-slate-200 bg-white text-slate-600 hover:border-violet-300 hover:text-violet-700'
+                ? 'bg-[#e47758] text-white shadow-sm'
+                : 'border border-[#efd8ce] bg-[#fffdfb] text-[#8b6558] hover:border-[#e6a28d] hover:text-[#b95f42]'
             }`}
             key={category.id}
             to={`/categories/${getCategorySlug(category.name)}`}

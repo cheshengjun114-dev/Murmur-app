@@ -34,7 +34,7 @@ export function ReactionBar({ postId }) {
   const reactions = reactionQuery.data?.reactions ?? [];
 
   return (
-    <section className="mt-10 border-t border-stone-200 pt-6">
+    <section className="mt-10 border-t border-[#efd8ce] pt-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold text-stone-950">반응</h2>
         <span className="text-sm text-stone-500">총 {reactionQuery.data?.totalCount ?? 0}개</span>
@@ -45,8 +45,8 @@ export function ReactionBar({ postId }) {
           <button
             className={`rounded-[8px] border px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 ${
               reaction.reactedByMe
-                ? 'border-[#17443f] bg-[#17443f] text-white'
-                : 'border-stone-300 bg-white text-stone-700 hover:border-[#17443f]'
+                ? 'border-[#e47758] bg-[#e47758] text-white'
+                : 'border-[#e7d6cf] bg-white text-[#76584e] hover:border-[#df8063]'
             }`}
             key={reaction.reactionType}
             type="button"

@@ -38,7 +38,7 @@ export function PostDetailPage() {
 
   return (
     <PageShell>
-      <section className="py-10">
+      <section className="mx-auto max-w-3xl py-10">
         {postQuery.isLoading && <div className="h-80 animate-pulse rounded-[8px] border border-stone-200 bg-white" />}
 
         {postQuery.isError && (
@@ -48,10 +48,10 @@ export function PostDetailPage() {
         )}
 
         {post && (
-          <article className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
+          <article className="rounded-[8px] border border-[#efd8ce] bg-[#fffdfb] p-6 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-[8px] bg-[#eef5ef] px-3 py-1 text-xs font-bold text-[#17443f]">
+                <span className="rounded-full bg-[#f8eee8] px-3 py-1 text-xs font-bold text-[#9c624f]">
                   {post.categoryName}
                 </span>
                 <span className="text-sm text-stone-500">익명1(글쓴이)</span>
@@ -82,7 +82,7 @@ export function PostDetailPage() {
               </div>
             </div>
 
-            <h1 className="mt-5 text-3xl font-semibold leading-tight text-stone-950">{post.title}</h1>
+            <h1 className="mt-5 text-3xl font-extrabold leading-tight text-[#43251d]">{post.title}</h1>
             <dl className="mt-4 flex flex-wrap gap-4 text-sm text-stone-500">
               <div className="flex gap-1">
                 <dt>조회</dt>

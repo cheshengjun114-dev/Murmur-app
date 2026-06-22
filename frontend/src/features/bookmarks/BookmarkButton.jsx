@@ -25,8 +25,8 @@ export function BookmarkButton({ postId, bookmarked }) {
     <button
       className={`rounded-[8px] border px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60 ${
         bookmarked
-          ? 'border-[#17443f] bg-[#17443f] text-white'
-          : 'border-stone-300 bg-white text-stone-700 hover:border-stone-500'
+          ? 'border-[#e47758] bg-[#e47758] text-white'
+          : 'border-[#e7d6cf] bg-white text-[#76584e] hover:border-[#df8063]'
       }`}
       type="button"
       disabled={bookmarkMutation.isPending}

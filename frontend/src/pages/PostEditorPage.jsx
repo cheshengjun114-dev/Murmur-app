@@ -132,10 +132,10 @@ export function PostEditorPage() {
 
   return (
     <PageShell>
-      <section className="py-10">
+      <section className="mx-auto max-w-3xl py-10">
         <div>
-          <p className="text-sm font-bold text-[#c15d35]">{isEditMode ? '게시글 수정' : '게시글 작성'}</p>
-          <h1 className="mt-3 text-4xl font-semibold leading-tight text-stone-950">
+          <p className="text-sm font-bold text-[#e47758]">{isEditMode ? '게시글 수정' : '게시글 작성'}</p>
+          <h1 className="mt-3 text-3xl font-extrabold leading-tight text-[#43251d]">
             {isEditMode ? '익명 글을 수정합니다' : '새 익명 글을 작성합니다'}
           </h1>
         </div>

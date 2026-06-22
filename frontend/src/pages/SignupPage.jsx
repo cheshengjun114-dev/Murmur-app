@@ -122,7 +122,7 @@ export function SignupPage() {
         )}
 
         <button
-          className="h-12 w-full rounded-[8px] bg-[#17443f] px-4 text-base font-semibold text-white transition hover:bg-[#10342f] disabled:cursor-not-allowed disabled:bg-stone-300"
+          className="h-12 w-full rounded-[8px] bg-[#e47758] px-4 text-base font-bold text-white transition hover:bg-[#cf6447] disabled:cursor-not-allowed disabled:bg-[#d8c7c0]"
           type="submit"
           disabled={signupMutation.isPending}
         >

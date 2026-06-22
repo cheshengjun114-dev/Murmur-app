@@ -84,14 +84,14 @@ export function LoginPage() {
         )}
 
         <button
-          className="h-12 w-full rounded-[8px] bg-[#17443f] px-4 text-base font-semibold text-white transition hover:bg-[#10342f] disabled:cursor-not-allowed disabled:bg-stone-300"
+          className="h-12 w-full rounded-[8px] bg-[#e47758] px-4 text-base font-bold text-white transition hover:bg-[#cf6447] disabled:cursor-not-allowed disabled:bg-[#d8c7c0]"
           type="submit"
           disabled={loginMutation.isPending}
         >
           {loginMutation.isPending ? '로그인 중...' : '로그인'}
         </button>
 
-        <Link className="block text-center text-sm font-medium text-stone-500 hover:text-stone-900" to="/">
+        <Link className="block text-center text-sm font-medium text-[#9a7b70] hover:text-[#b95f42]" to="/">
           홈으로 돌아가기
         </Link>
       </form>

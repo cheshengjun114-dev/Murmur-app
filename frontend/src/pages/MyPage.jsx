@@ -20,16 +20,16 @@ export function MyPage() {
 
   return (
     <PageShell>
-      <section className="py-10">
+      <section className="mx-auto max-w-3xl py-10">
         <div className="flex flex-wrap items-end justify-between gap-5">
           <div>
-            <p className="text-sm font-bold text-[#c15d35]">마이페이지</p>
-            <h1 className="mt-3 text-3xl font-semibold leading-tight text-stone-950">내 활동 관리</h1>
+            <p className="text-sm font-bold text-[#e47758]">마이페이지</p>
+            <h1 className="mt-3 text-3xl font-extrabold leading-tight text-[#43251d]">내 활동 관리</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-stone-600">
               익명으로 보이지만, 내 글은 계정 기준으로 안전하게 관리됩니다.
             </p>
           </div>
-          <Link className="rounded-[8px] bg-[#17443f] px-5 py-3 text-sm font-semibold text-white" to="/posts/new">
+          <Link className="rounded-[8px] bg-[#e47758] px-5 py-3 text-sm font-bold text-white hover:bg-[#cf6447]" to="/posts/new">
             글쓰기
           </Link>
         </div>
@@ -46,7 +46,7 @@ export function MyPage() {
 
         {profile && (
           <>
-            <section className="mt-6 rounded-[8px] border border-stone-200 bg-white p-5 shadow-sm">
+            <section className="mt-6 rounded-[8px] border border-[#efd8ce] bg-[#fffdfb] p-5 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <p className="text-xl font-semibold text-stone-950">{profile.nickname}</p>
@@ -92,7 +92,7 @@ export function MyPage() {
 
 function ActivityMetric({ label, value }) {
   return (
-    <div className="rounded-[8px] border border-stone-200 bg-white px-4 py-3">
+    <div className="rounded-[8px] border border-[#efd8ce] bg-[#fffdfb] px-4 py-3">
       <p className="text-xs font-semibold text-stone-500">{label}</p>
       <p className="mt-1 text-2xl font-bold text-stone-950">{value}</p>
     </div>

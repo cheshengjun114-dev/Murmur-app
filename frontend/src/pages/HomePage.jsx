@@ -25,21 +25,23 @@ export function HomePage() {
   return (
     <PageShell>
       <div className="mx-auto w-full max-w-3xl py-7 sm:py-10">
-        <section className="rounded-[8px] border border-slate-200 bg-white px-6 py-7 shadow-sm sm:px-8">
+        <section className="rounded-[8px] border border-[#efd8ce] bg-[#fffaf7] px-6 py-8 sm:px-8">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row">
             <div>
-              <p className="text-xs font-extrabold text-violet-600">익명 커뮤니티</p>
-              <h1 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950">
-                오늘 올라온
+              <p className="text-xs font-extrabold text-[#e47758]">익명 커뮤니티</p>
+              <h1 className="mt-3 text-3xl font-extrabold leading-tight text-[#43251d]">
+                혼자 담아두기엔
                 <br />
-                익명 이야기
+                너무 무거운 이야기
               </h1>
-              <p className="mt-3 max-w-md text-sm leading-6 text-slate-500">
-              회사, 연애, 고민, 일상 이야기를 부담 없이 둘러보세요.
+              <p className="mt-4 max-w-md text-sm leading-6 text-[#9a6c5c]">
+                말 못 했던 것들을
+                <br />
+                여기서 꺼내보세요.
               </p>
             </div>
             <Link
-              className="inline-flex h-11 items-center justify-center rounded-[8px] bg-violet-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-violet-700"
+              className="inline-flex h-11 items-center justify-center rounded-[8px] border border-[#dfc7bd] bg-white px-5 text-sm font-bold text-[#4d332b] transition hover:border-[#df8063] hover:text-[#c45f43]"
               to="/posts/new"
             >
               글쓰기
@@ -53,8 +55,8 @@ export function HomePage() {
 
         <section className="mt-7">
           <div className="mb-4 flex items-center gap-3">
-            <h2 className="shrink-0 text-sm font-extrabold text-violet-600">인기글</h2>
-            <div className="h-px w-full bg-slate-200" />
+            <h2 className="shrink-0 text-sm font-extrabold text-[#e47758]">인기글</h2>
+            <div className="h-px w-full bg-[#efd8ce]" />
           </div>
           <PostList
             posts={popularPostsQuery.data?.content ?? []}
@@ -69,8 +71,8 @@ export function HomePage() {
 
         <section className="mt-8">
           <div className="mb-4 flex items-center gap-3">
-            <h2 className="shrink-0 text-sm font-extrabold text-violet-600">최신글</h2>
-            <div className="h-px w-full bg-slate-200" />
+            <h2 className="shrink-0 text-sm font-extrabold text-[#e47758]">최신글</h2>
+            <div className="h-px w-full bg-[#efd8ce]" />
           </div>
           <PostList
             posts={postsQuery.data?.content ?? []}
