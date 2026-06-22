@@ -12,11 +12,18 @@ body {
     BlinkMacSystemFont,
     'Segoe UI',
     sans-serif;
-  background: #f8fafc;
-  color: #111827;
+  background: #faf9f7;
+  color: #0f172a;
+  letter-spacing: 0;
 }
 
 button,
-input {
+input,
+textarea,
+select {
   font: inherit;
+}
+
+* {
+  box-sizing: border-box;
 }

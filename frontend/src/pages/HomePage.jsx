@@ -24,30 +24,37 @@ export function HomePage() {
 
   return (
     <PageShell>
-      <div className="py-10">
-        <div className="flex flex-wrap items-end justify-between gap-5">
-          <div>
-            <p className="text-sm font-bold text-[#c15d35]">최신글</p>
-            <h1 className="mt-3 text-4xl font-semibold leading-tight text-stone-950">오늘 올라온 익명 이야기</h1>
-            <p className="mt-3 max-w-2xl text-base leading-7 text-stone-600">
+      <div className="mx-auto w-full max-w-3xl py-7 sm:py-10">
+        <section className="rounded-[8px] border border-slate-200 bg-white px-6 py-7 shadow-sm sm:px-8">
+          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row">
+            <div>
+              <p className="text-xs font-extrabold text-violet-600">익명 커뮤니티</p>
+              <h1 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950">
+                오늘 올라온
+                <br />
+                익명 이야기
+              </h1>
+              <p className="mt-3 max-w-md text-sm leading-6 text-slate-500">
               회사, 연애, 고민, 일상 이야기를 부담 없이 둘러보세요.
-            </p>
+              </p>
+            </div>
+            <Link
+              className="inline-flex h-11 items-center justify-center rounded-[8px] bg-violet-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-violet-700"
+              to="/posts/new"
+            >
+              글쓰기
+            </Link>
           </div>
-          <Link className="rounded-[8px] bg-[#17443f] px-5 py-3 text-sm font-semibold text-white" to="/posts/new">
-            글쓰기
-          </Link>
-        </div>
+        </section>
 
-        <div className="mt-8">
+        <div className="mt-5">
           <CategoryTabs categories={categoriesQuery.data ?? []} activeCategoryId={null} />
         </div>
 
-        <section className="mt-8">
-          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="text-sm font-bold text-[#c15d35]">인기글</p>
-              <h2 className="mt-2 text-2xl font-semibold text-stone-950">지금 반응이 많은 이야기</h2>
-            </div>
+        <section className="mt-7">
+          <div className="mb-4 flex items-center gap-3">
+            <h2 className="shrink-0 text-sm font-extrabold text-violet-600">인기글</h2>
+            <div className="h-px w-full bg-slate-200" />
           </div>
           <PostList
             posts={popularPostsQuery.data?.content ?? []}
@@ -60,10 +67,10 @@ export function HomePage() {
           />
         </section>
 
-        <section className="mt-6">
-          <div className="mb-4">
-            <p className="text-sm font-bold text-[#c15d35]">최신글</p>
-            <h2 className="mt-2 text-2xl font-semibold text-stone-950">새로 올라온 이야기</h2>
+        <section className="mt-8">
+          <div className="mb-4 flex items-center gap-3">
+            <h2 className="shrink-0 text-sm font-extrabold text-violet-600">최신글</h2>
+            <div className="h-px w-full bg-slate-200" />
           </div>
           <PostList
             posts={postsQuery.data?.content ?? []}

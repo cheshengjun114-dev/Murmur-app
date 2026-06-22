@@ -13,7 +13,7 @@ export function PostList({
     return (
       <div className="space-y-3">
         {Array.from({ length: 4 }).map((_, index) => (
-          <div className="h-32 animate-pulse rounded-[8px] border border-stone-200 bg-white" key={index} />
+          <div className="h-32 animate-pulse rounded-[8px] border border-slate-200 bg-white" key={index} />
         ))}
       </div>
     );
@@ -25,9 +25,9 @@ export function PostList({
 
   if (!posts?.length) {
     return (
-      <div className="rounded-[8px] border border-dashed border-stone-300 bg-white px-6 py-12 text-center">
-        <p className="text-base font-semibold text-stone-800">{emptyTitle}</p>
-        <p className="mt-2 text-sm text-stone-500">{emptyDescription}</p>
+      <div className="rounded-[8px] border border-dashed border-violet-200 bg-white px-6 py-12 text-center">
+        <p className="text-base font-semibold text-slate-800">{emptyTitle}</p>
+        <p className="mt-2 text-sm text-slate-500">{emptyDescription}</p>
       </div>
     );
   }

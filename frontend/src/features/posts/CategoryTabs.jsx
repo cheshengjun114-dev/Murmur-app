@@ -5,8 +5,10 @@ export function CategoryTabs({ categories, activeCategoryId }) {
   return (
     <div className="flex flex-wrap gap-2">
       <Link
-        className={`rounded-[8px] px-4 py-2 text-sm font-semibold ${
-          activeCategoryId ? 'border border-stone-300 bg-white text-stone-700' : 'bg-[#17443f] text-white'
+        className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+          activeCategoryId
+            ? 'border border-slate-200 bg-white text-slate-600 hover:border-violet-300 hover:text-violet-700'
+            : 'bg-violet-600 text-white shadow-sm'
         }`}
         to="/"
       >
@@ -17,8 +19,10 @@ export function CategoryTabs({ categories, activeCategoryId }) {
 
         return (
           <Link
-            className={`rounded-[8px] px-4 py-2 text-sm font-semibold ${
-              isActive ? 'bg-[#17443f] text-white' : 'border border-stone-300 bg-white text-stone-700'
+            className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+              isActive
+                ? 'bg-violet-600 text-white shadow-sm'
+                : 'border border-slate-200 bg-white text-slate-600 hover:border-violet-300 hover:text-violet-700'
             }`}
             key={category.id}
             to={`/categories/${getCategorySlug(category.name)}`}
